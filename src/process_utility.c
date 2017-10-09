@@ -877,6 +877,10 @@ process_index_end(Node *parsetree, CollectedCommand *cmd)
 	if (NULL != ht)
 	{
 		ObjectAddress obj;
+		CreateIndexInfo info = {
+			.stmt = stmt,
+			.ht = ht,
+		};
 
 		switch (cmd->type)
 		{
@@ -890,11 +894,7 @@ process_index_end(Node *parsetree, CollectedCommand *cmd)
 				break;
 		}
 
-		CreateIndexInfo info = {
-			.stmt = stmt,
-			.obj = obj,
-			.ht = ht,
-		};
+		info.obj = obj;
 
 		/*
 		 * Change user since chunk's are typically located in an internal
